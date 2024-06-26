@@ -5,6 +5,9 @@ import com.xixinhealthcheckup.pojo.User;
 import com.xixinhealthcheckup.service.UserServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * 用户相关接口
+ */
 @RestController
 @RequestMapping("/users")
 @CrossOrigin //解决跨域问题
