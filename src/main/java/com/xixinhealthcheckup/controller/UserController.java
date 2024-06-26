@@ -3,6 +3,7 @@ package com.xixinhealthcheckup.controller;
 import com.xixinhealthcheckup.pojo.Result;
 import com.xixinhealthcheckup.pojo.User;
 import com.xixinhealthcheckup.service.UserServiceImpl;
+import com.xixinhealthcheckup.util.JwtUtil;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -19,20 +20,15 @@ public class UserController {
         this.userService = userService;
     }
 
-    /**
-     * 根据手机号码和密码进行登录验证
-     * @param id 手机号码
-     * @param password 密码
-     * @return 成功或失败
-     */
-    @PostMapping("/getUsersByUserIdByPass")
-    public Result getUser(@RequestBody String id, @RequestBody String password) {
+    @GetMapping("/getUsersByUserIdByPass")
+    public Result getUser(@RequestParam String userId, @RequestParam String password) {
         //查询是否存在该用户
-        User user = userService.getUserByUseridByPass(id, password);
+        User user = userService.getUserByUseridByPass(userId, password);
         if (user == null) {
             return Result.error("用户不存在或密码错误");
         }
-        return Result.success();
+        //生成token
+        return Result.success(JwtUtil.generateToken(user.getUserId()));
     }//已通过测试
 
     /**
@@ -48,5 +44,12 @@ public class UserController {
             return Result.success();
         }
         return Result.error("用户已存在(手机号已注册)");
+    }//已通过测试
+
+    @PostMapping("/saveUsers")
+    public Result saveUsers(@RequestBody User user) {
+        //保存用户信息
+        userService.saveUser(user);
+        return Result.success();
     }//已通过测试
 }

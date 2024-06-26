@@ -20,6 +20,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 添加拦截器, 排除不需要拦截的路径
-        registry.addInterceptor(loginInterceptor).excludePathPatterns("/user", "user/login", "user/register");
+        registry.addInterceptor(loginInterceptor).excludePathPatterns("/users/getUsersByUserIdByPass", "/users/getUsersById", "/users/saveUsers");
     }
 }

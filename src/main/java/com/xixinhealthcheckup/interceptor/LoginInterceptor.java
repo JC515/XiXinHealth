@@ -15,7 +15,19 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("Authorization");// 获取请求头中的Authorization字段
-        // 校验token
+        // 没有token，返回401
+        if (token == null || token.isEmpty()) {
+            // 没有token，返回401
+            response.setStatus(401);
+            return false;
+        }
+        // 校验token是否有效
+        if (!JwtUtil.validateToken(token)) {
+            // token无效，返回401
+            response.setStatus(401);
+            return false;
+        }
+        // token有效，获取username
         try {
             String username = JwtUtil.getUsername(token);
             // 将username存入ThreadLocalUtil

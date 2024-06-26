@@ -13,6 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
+    public static final int PASSWORD_MAX_LENGTH = 20;
     private String userId;//用户手机号（登录用）
     private String password;//密码（登录用）
     private String realName;//真实姓名
