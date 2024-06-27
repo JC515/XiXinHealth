@@ -20,6 +20,12 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * 根据用户id和密码查询用户信息并生成token
+     * @param userId 用户id
+     * @param password 密码
+     * @return 如果用户存在且密码正确，返回token，否则返回错误信息
+     */
     @GetMapping("/getUsersByUserIdByPass")
     public Result getUser(@RequestParam String userId, @RequestParam String password) {
         //查询是否存在该用户
@@ -46,6 +52,11 @@ public class UserController {
         return Result.error("用户已存在(手机号已注册)");
     }//已通过测试
 
+    /**
+     * 保存用户信息
+     * @param user 用户信息
+     * @return 成功或失败
+     */
     @PostMapping("/saveUsers")
     public Result saveUsers(@RequestBody User user) {
         //保存用户信息

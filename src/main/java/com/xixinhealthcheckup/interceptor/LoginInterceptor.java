@@ -4,47 +4,43 @@ import com.xixinhealthcheckup.util.JwtUtil;
 import com.xixinhealthcheckup.util.ThreadLocalUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import java.util.Optional;
 
 /**
  * 登录拦截器
  */
 @Component
+@Slf4j
 public class LoginInterceptor implements HandlerInterceptor {
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = request.getHeader("Authorization");// 获取请求头中的Authorization字段
-        // 没有token，返回401
-        if (token == null || token.isEmpty()) {
-            // 没有token，返回401
+        Optional<String> token = Optional.ofNullable(request.getHeader("Authorization"));
+        if (token.isPresent()) {
+            try {
+                JwtUtil.validateToken(token.get());
+                String username = JwtUtil.getUsername(token.get());
+                ThreadLocalUtil.set(username);
+                return true;
+            } catch (Exception e) {
+                response.setStatus(401);
+                response.getWriter().write("Token invalid");
+                return false;
+            }
+        } else {
+            log.info("No token provided");
             response.setStatus(401);
-            return false;
-        }
-        // 校验token是否有效
-        if (!JwtUtil.validateToken(token)) {
-            // token无效，返回401
-            response.setStatus(401);
-            return false;
-        }
-        // token有效，获取username
-        try {
-            String username = JwtUtil.getUsername(token);
-            // 将username存入ThreadLocalUtil
-            ThreadLocalUtil.set(username);
-            // 校验成功，放行
-            return true;
-        } catch (Exception e) {
-            // 校验失败，返回401
-            response.setStatus(401);
+            response.getWriter().write("Unauthorized");
             return false;
         }
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        // 移除ThreadLocalUtil中的username
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         ThreadLocalUtil.remove();
     }
 }
-

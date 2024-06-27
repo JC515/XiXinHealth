@@ -13,6 +13,8 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order {
+    public static final Integer UNARCHIVED = 1; // 未归档状态
+    public static final Integer ARCHIVED = 2; // 已归档状态
     private Integer orderId; // 订单编号(自增主键)
     private Date orderDate; // 预约日期
     private String userId; // 客户编号，外键
