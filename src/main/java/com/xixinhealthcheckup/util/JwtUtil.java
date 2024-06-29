@@ -51,4 +51,5 @@ public class JwtUtil {
     public static void validateToken(String token) throws JWTVerificationException {
         JWT.require(Algorithm.HMAC256(SECRET_KEY)).build().verify(token);
     }
+
 }

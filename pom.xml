@@ -76,6 +76,12 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
         </dependency>
+        <!--分页依赖-->
+        <dependency>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <groupId>com.github.pagehelper</groupId>
+            <version>1.2.10</version>
+        </dependency>
     </dependencies>
 
     <build>

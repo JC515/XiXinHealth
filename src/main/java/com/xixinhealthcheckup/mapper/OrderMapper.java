@@ -1,13 +1,20 @@
 package com.xixinhealthcheckup.mapper;
 
 import com.xixinhealthcheckup.pojo.Order;
+import com.xixinhealthcheckup.pojo.UserOrder;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface OrderMapper {
+
+    @Select("select * from  order_user")
+    List<UserOrder> selectAll();
+
     /**
      * 通过用户id和订单状态查询订单
      * @param state 订单状态（1：未归档；2：已归档）
@@ -46,4 +53,12 @@ public interface OrderMapper {
      */
     @Select("select * from orders where order_id = #{orderId}")
     Order selectByOrderId(Integer orderId);
+
+    @Select("select count(*) from order_user")
+    Integer selectTotalCount();
+
+    List<UserOrder> selectByCondition(UserOrder userOrder);
+
+    @Select("select * from order_user where order_id = #{orderId}")
+    UserOrder selectUserOrderByOrderId(Integer orderId);
 }
