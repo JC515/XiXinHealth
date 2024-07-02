@@ -85,4 +85,14 @@ public class UserController {
             return Result.error("用户不存在");
         }
     }
+
+    @GetMapping("/getUserNameByUserId")
+    public Result<String> getUserNameByUserId(@RequestParam String userId) {
+        User checkUse = userService.getUserById(userId);
+        if (checkUse != null) {
+            return Result.success(checkUse.getRealName());
+        } else {
+            return Result.error("用户不存在");
+        }
+    }
 }

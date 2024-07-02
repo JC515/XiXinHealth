@@ -70,4 +70,8 @@ public class OrderServiceImpl implements OrderService {
     public void updateUserOrderStatus(String orderId) {
         orderMapper.updateUserOrderStatus(orderId);
     }
+
+    public List<UserOrder> getUserOrderListByUserId(String userId) {
+        return orderMapper.selectUserOrderListByUserId(userId);
+    }
 }

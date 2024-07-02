@@ -50,6 +50,11 @@ public class DoctorController {
         return Result.success();
     }
 
+    /**
+     * 获取医生姓名
+     * @param docCode 医生账号
+     * @return 成功返回医生姓名，失败返回错误信息
+     */
     @GetMapping("/getName")
     public Result<String> getDoctorInfo(@RequestParam String docCode) {
         return Result.success(doctorServiceImpl.findDoctorByCode(docCode).getRealName());

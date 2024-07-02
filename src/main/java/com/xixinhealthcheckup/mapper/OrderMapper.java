@@ -64,4 +64,7 @@ public interface OrderMapper {
 
     @Update("update orders set state = 2 where order_id = #{orderId}")
     void updateUserOrderStatus(String orderId);
+
+    @Select("select * from order_user where phone = #{userId} order by order_date desc")
+    List<UserOrder> selectUserOrderListByUserId(String userId);
 }

@@ -28,8 +28,7 @@ public class OrderController {
      */
     @GetMapping("/getOrdersByUserId")
     public Result getOrdersByUserId(@RequestParam String userId) {
-        Order order = new Order();
-        order = orderService.getOrdersByUserId(userId);
+        Order order = orderService.getOrdersByUserId(userId);
         if (order != null) {
             return Result.error("该手机号已预约，存在未归档的预约记录");
         } else {
@@ -122,16 +121,43 @@ public class OrderController {
     @GetMapping("/getUserOrderByOrderId")
     public Result<UserOrder> getUserOrderByOrderId(@RequestParam Integer orderId) {
         UserOrder userOrder = orderService.getUserOrderByOrderId(orderId);
-        return Result.success(userOrder);
+        if (userOrder != null) {
+            return Result.success(userOrder);
+        }
+        return Result.error("预约记录不存在");
     }
 
 
+    /**
+     * 根据userId获取用户预约信息
+     * @param userId 用户id
+     * @return 用户预约信息
+     */
     @GetMapping("/getUserOrderByUserId")
     public Result<UserOrder> getUserOrderByOrderId(@RequestParam String userId) {
         UserOrder userOrder = orderService.getUserOrderByUserId(userId);
+        if (userOrder != null) {
+            return Result.success(userOrder);
+        }
+        return Result.error("预约记录不存在");
+    }
+
+    /**
+     * 根据userId获取用户预约信息
+     * @param userId 用户id
+     * @return 用户预约信息
+     */
+    @GetMapping("/getUserOrderListByUserId")
+    public Result<List<UserOrder>> getUserOrderListByOrderId(@RequestParam String userId) {
+        List<UserOrder> userOrder = orderService.getUserOrderListByUserId(userId);
         return Result.success(userOrder);
     }
 
+    /**
+     * 更新用户预约状态
+     * @param orderId 预约id
+     * @return 更新结果
+     */
     @GetMapping("/updateUserOrderStatus")
     public Result updateUserOrderStatus(@RequestParam String orderId) {
         orderService.updateUserOrderStatus(orderId);
