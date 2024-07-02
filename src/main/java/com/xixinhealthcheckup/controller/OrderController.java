@@ -44,6 +44,11 @@ public class OrderController {
      */
     @PostMapping("/saveOrders")
     public Result saveOrder(@RequestBody Order order) {
+        //查询是否预约过
+        Order order1 = orderService.getOrdersByUserId(order.getUserId());
+        if (order1 != null) {
+            return Result.error("该手机号已预约，存在未归档的预约记录");
+        }
         orderService.saveOrder(order);
         return Result.success();
     }
@@ -109,9 +114,28 @@ public class OrderController {
         return Result.success(orderList);
     }
 
+    /**
+     * 根据预约id获取用户预约信息
+     * @param orderId 预约id
+     * @return 用户预约信息
+     */
     @GetMapping("/getUserOrderByOrderId")
     public Result<UserOrder> getUserOrderByOrderId(@RequestParam Integer orderId) {
         UserOrder userOrder = orderService.getUserOrderByOrderId(orderId);
         return Result.success(userOrder);
     }
+
+
+    @GetMapping("/getUserOrderByUserId")
+    public Result<UserOrder> getUserOrderByOrderId(@RequestParam String userId) {
+        UserOrder userOrder = orderService.getUserOrderByUserId(userId);
+        return Result.success(userOrder);
+    }
+
+    @GetMapping("/updateUserOrderStatus")
+    public Result updateUserOrderStatus(@RequestParam String orderId) {
+        orderService.updateUserOrderStatus(orderId);
+        return Result.success();
+    }
 }
+

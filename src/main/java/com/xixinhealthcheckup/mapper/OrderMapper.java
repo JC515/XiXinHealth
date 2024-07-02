@@ -2,10 +2,7 @@ package com.xixinhealthcheckup.mapper;
 
 import com.xixinhealthcheckup.pojo.Order;
 import com.xixinhealthcheckup.pojo.UserOrder;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -61,4 +58,10 @@ public interface OrderMapper {
 
     @Select("select * from order_user where order_id = #{orderId}")
     UserOrder selectUserOrderByOrderId(Integer orderId);
+
+    @Select("select * from order_user where phone = #{userId} order by order_date desc limit 1 ")
+    UserOrder selectUserOrderByUserId(String userId);
+
+    @Update("update orders set state = 2 where order_id = #{orderId}")
+    void updateUserOrderStatus(String orderId);
 }

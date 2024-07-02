@@ -14,6 +14,6 @@ public class UserOrder {
     private String sex; // 性别
     private String type; // 检查类型
     private String hospitalName; // 医院名称
-    private String orderDate; // 预约日期
-    private Integer isArchived; // 是否归档
+    private String orderDate; // 预约日期(yyyy-MM-dd)
+    private Integer isArchived; // 是否归档(1:未归档,2:已归档)
 }

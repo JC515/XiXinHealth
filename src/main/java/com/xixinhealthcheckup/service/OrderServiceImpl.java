@@ -62,4 +62,12 @@ public class OrderServiceImpl implements OrderService {
     public UserOrder getUserOrderByOrderId(Integer orderId) {
         return orderMapper.selectUserOrderByOrderId(orderId);
     }
+
+    public UserOrder getUserOrderByUserId(String userId) {
+        return orderMapper.selectUserOrderByUserId(userId);
+    }
+
+    public void updateUserOrderStatus(String orderId) {
+        orderMapper.updateUserOrderStatus(orderId);
+    }
 }
